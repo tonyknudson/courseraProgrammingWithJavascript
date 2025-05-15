@@ -205,7 +205,7 @@ if (color == 'red' { ---> block scope, curly braces
 }
 
 let - value may change in the future
-const - value will NEVER change
+const - value will NEVER change, must be assigned during declaration
 var
 	can de used before declared
 	can be redeclared
@@ -244,3 +244,364 @@ console.log(user);
 let user = "Anna";
 <OUTPUT>
 SyntaxError: Identified 'user' has already been declared
+----------------------------------------
+
+let user;
+console.log(user);
+
+user = "Anna";
+<OUTPUT>
+undefined
+Anna
+----------------------------------------
+
+console.log(user)
+const user;
+<OUTPUT>
+SyntaxError: Missing initializer in const declaration
+----------------------------------------
+
+console.log(user);
+const user = "Andrew";
+<OUTPUT>
+ReferenceError: Cannot access 'user' before initialization
+----------------------------------------
+
+const user = "Andrew"
+user= "Anna"
+<OUTPUT>
+TypeError: Assignment to constant variable
+----------------------------------------
+
+    var globalVar = 77;
+
+    function scopeTest() {
+        var localVar = 88;
+    }
+
+    console.log(localVar);
+<OUTPUT>
+ReferenceError: localVar is not defined
+-----------------------------------------
+
+    function meal(animal) {
+        animal.food = animal.food + 10;
+    }
+
+    var dog = {
+        food: 10
+    };
+    meal(dog);
+    meal(dog);
+
+    console.log(dog.food);
+	
+<OUTPUT> // 10 + 10 + 10
+30
+
+------------------------------------------
+
+    function two() {
+        return 2;
+    }
+
+    function one() {
+        return 1;
+    }
+
+    function calculate(initialValue, incrementValue) {
+        return initialValue() + incrementValue() + incrementValue();
+    }
+
+    console.log(calculate(two, one));
+<OUTPUT> // 2 + 1 + 1
+4
+
+
+************** Object Oriented Programming Paradigm *******************
+	group data
+	Allows you to write modular code
+	Makes your code more flexible
+	Makes your code reusable
+	models real-world relationships through principles like inheritance, encapsulation, abstraction, and polymorphism
+	
+var purchase1 = {
+	shoes: 100
+	stateTax: 1.2,
+	totalPrice: function() {
+		var calculation = purchase1.shoes * purchase1.stateTax;
+		console.log('Total price:', calculation);
+		console.log('Shoes: ', purchase1.shoes);
+		console.log('Tax:', purchase1.stateTax);
+	}
+}
+
+<OUTPUT>
+Total price: 120
+Shoes: 100
+Tax: 20
+------------------------------------------
+var purchase2 = {
+	shoes: 50,
+	stateTax: 1.2,
+	totalPrice: function() {
+		var calculation = purchase2.shoes * purchase2.stateTax;
+		console.log('Total price: ', calculation);
+		console.log('Shoes: ', purchase2.shoes);
+		console.log('Tax:', purchase2.stateTax);
+	}
+}
+
+<OUTPUT>
+Total price: 60
+Shoes: 50
+Tax: 10
+------------------------------------------
+
+var purchase1 = {
+	shoes: 100
+	stateTax: 1.2,
+	totalPrice: function() {
+		var calculation = this.shoes * this.stateTax;
+		console.log('Total price:', calculation);
+		console.log('Shoes: ', this.shoes);
+		console.log('Tax:', this.stateTax);
+	}
+}
+
+<OUTPUT>
+Total price: 120
+Shoes: 100
+Tax: 20
+-------------------------------------------
+//functional programming
+var shoes = 100;
+var stateTax = 1.2;
+
+function totalPrice(shoes, tax){
+	return shoes * tax;
+}
+
+var toPay = totalPrice(shoes, stateTax);
+
+console.log(toPay);
+<OUTPUT>
+120
+
+-------------------------------------------
+var purchase1 = {
+	shoes: 100,
+	stateTax = 1.2,
+	totalPrice: function(){
+		var calculation = this.shoes * this.stateTax
+		console.log('Total price:', calculation);
+	}
+}
+purchase1.totalPrice(); // 120
+
+
+CLASSES
+
+class Car{
+	constructor(color, speed)
+		this.color = color;
+		this.speed = speed;
+	}
+	
+	turboOn() {
+		console.log("turbo is on!")
+	}
+
+}
+
+const car1 = new Car("red", 120)
+car1.turboOn();
+
+
+Inheritance
+	There is a base class of Animal.
+	There is another class, a sub-class inheriting from Animal, and the name of this class is Mammal.
+	Next, there is another class, inheriting from Mammal, and this class is Elephant.
+	
+	class Animal { /* ...class code here... */ };
+	class Mammal extends Animal { /* ...class code here... */ };	
+	class Elephant extends Mammal { /* ...class code here... */ };
+	
+Encapsulation
+	using code without needing to know how it does what it does
+	
+	"abc".toUpperCase();
+	
+Abstraction 
+	is about extracting the concept of what you're trying to do, rather than dealing with a specific manifestation of that concept
+	
+Polymorphism
+	meaning multiple forms, for example bell is a property of both a door and a bicycle, but the use is different
+	behaves differently, based on context
+	
+	const bicycle = {
+		bell: function() {
+			return "Ring, ring! Watch out, please!";
+		}
+	}
+	const door = {
+		bell: function() {
+			return "Ring, ring! Come here, please!";
+		}
+	}
+	
+	bicycle.bell(); // "Ring, ring! Watch out, please!"
+	door.bell();    // "Ring, ring! Come here, please!"
+--------------------------------------------------------------
+	function ringTheBell(thing) {
+		console.log(thing.bell());
+	}
+	
+	ringTheBell(bicycle); // Ring, ring! Watch out, please!
+	ringTheBell(door); // "Ring, ring! Come here, please!"
+
+------------------------------------------------------------------
+class Bird {
+    useWings() {
+        console.log("Flying!");
+    }
+}
+class Eagle extends Bird {
+    useWings() {
+        super.useWings();
+        console.log("Barely flapping!");
+    }
+}
+class Penguin extends Bird {
+    useWings() {
+        console.log("Diving!");
+    }
+}
+var baldEagle = new Eagle();
+var kingPenguin = new Penguin();
+baldEagle.useWings(); // "Flying! Barely flapping!"
+kingPenguin.useWings(); // "Diving!"
+
+
+you can't compare a String object with another String object, even when their values are identical
+	new String('plum') === new String('plum') --> false
+	"plum" === "plum" --------------------------> true
+	
+	
+	
+	---------------------
+	
+var bird = { -----------------> prototype, values shared with each object constructed on it
+	hasWings: true,
+	canFly: true,
+	hasFeathers: true
+}
+
+var eagle1 = Object.create(bird);
+console.log("eagle1: ", eagle1);
+<OUTPUT>
+eagle1: {}
+
+console.log(eagle1.hasWings);
+console.log(eagle1.canFly);
+console.log(eagle1.hasFeathers);
+
+<OUTPUT>
+eagle1: {}
+true
+true
+true
+
+
+var eagle2 = Object.create(bird);
+console.log("eagle2: ", eagle2);
+console.log(eagle2.hasWings);
+
+<OUTPUT>
+eagle1: {}
+true
+true
+true
+eagle2: {}
+true
+
+
+var penguin1 = Object.create(bird);
+penguin1.canFly = false;
+console.log("penguin1: ", penguin1);
+<OUTPUT>
+penguin1: {canFly: false }
+
+console.log(penguing1 has feathers:", penguin1.hasFeathers);
+console.log("penguin1 can fly:", penguin1.canFly);
+
+<OUTPUT>
+penguin1: { canFly: false }
+penguin1 has feathers: true
+penguin1 can fly: false
+----------------------------------------------------
+
+Creating CLASSES
+
+class Train {
+	constructor(color, lightsOn) {
+		this.color = color;
+		this.lightsOn = lightsOn;
+	}
+	toggleLights(){
+		this.lightsOn = !this.lightsOn;
+	}
+	lightsStatus() {
+		console.log('Lights on?', this.lightsOn);
+	}
+	getSelf() {
+		console.log(this);
+	}
+	getPrototype() {
+		var prototype = Object.getPrototypeOf(this);
+		console.log(prototype);
+	}
+}
+
+
+
+var firstTrain = new Train('red', false);
+console.log(myFirstTrain); // Train {color: 'red', lightsOn: false}
+var secondTrain = new Train('blue', false);
+var thirdTrain = new Train('blue', false);
+
+var train4 = new Train('red', false);
+
+train4.toggleLights(); // undefined
+train4.lightsStatus(); // Lights on? true
+train4.getSelf(); // Train {color: 'red', lightsOn: true}
+train4.getPrototype(); // {constructor: f, toggleLights: f, lightsStatus: f, getSelf: f, getPrototype: f}
+
+all the methods on the Train class do not "live" on any of the instance objects of the Train class - instead, they live on the prototype
+the result of calling the getPrototype() method is the console logging of all the properties on the prototype. When the class syntax is used in JavaScript, this results in only shared methods being stored on the prototype, while the constructor() function sets up the mechanism for saving instance-specific values ("data") at the time of object instantiation.
+
+class HighSpeedTrain extends Train {
+    constructor(passengers, highSpeedOn, color, lightsOn) {
+        super(color, lightsOn);
+        this.passengers = passengers;
+        this.highSpeedOn = highSpeedOn;
+    }
+	toggleHighSpeed() {
+        this.highSpeedOn = !this.highSpeedOn;
+        console.log('High speed status:', this.highSpeedOn);
+    }
+	toggleLights() {
+        super.toggleLights();
+        super.lightsStatus();
+        console.log('Lights are 100% operational.');
+    }
+}
+
+var train5 = new Train('blue', false);
+var highSpeed1 = new HighSpeedTrain(200, false, 'green', false);
+
+train5.toggleLights(); // undefined
+train5.lightsStatus(); // Lights on? true
+
+train5.getPrototype(); // {constructor: ƒ, toggleLights: ƒ, lightsStatus: ƒ, getSelf: ƒ, getPrototype: ƒ}
+highSpeed1.getPrototype(); // Train {constructor: ƒ, toggleHighSpeed: ƒ, toggleLights: ƒ}
