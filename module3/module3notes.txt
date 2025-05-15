@@ -1,0 +1,246 @@
+functional programming (fp)
+
+object oriented programming (oop)
+
+var shoes = 100; --------------------------> data
+var stateTax = 1.1; -----------------------> data
+function totalPrice(price,tax){ -----------> function
+	return price * tax;--------------------> returns value
+}
+var toPay = totalPrice(shoes,stateTax); ---> arguments
+console.log(toPay);
+
+
+
+var currencyOne = 100;
+var currencyTwo = 0;
+var exchangeRate = 1.2;
+
+function convertCurrency(amount, rate){
+	return amount * rate;
+}
+
+currencyTwo = convertCurrency(currencyOne, exchangeRate);
+
+console.log(currencyTwo)
+
+In fucntional programming, the data and functions that operate on it are clearly spearated, not combined inside objects
+
+
+
+
+Many functions, by default, return the value of undefined.
+
+console.log('Hello');
+<output>
+Hello
+undefined
+
+The console.log() function is built with the intention to not have the return value explicitly set. Therefore, it gets the default return value of undefined.  However, this default behavior can be changed by explicitly returning a value from a function. 
+
+function consoleLog(val) {
+    console.log(val)
+    return val
+}
+consoleLog('Hello')
+<output>
+Hello
+'Hello;
+
+
+RETURN VALUES
+function doubleIt(num) {
+    return num * 2
+}
+
+function objectMaker(val) {
+    return {
+        prop: val
+    }
+}
+
+
+objectMaker(20);
+The returned value will be an object with a single prop key set to 20:
+{prop:20}
+
+doubleIt(10).toString()
+"20"
+objectMaker( doubleIt(100) );
+{prop: 200}
+
+
+
+// Function to double a number
+function doubleIt(num) {
+    return num * 2;
+}
+
+// Function to create an object with a 'prop' key
+function objectMaker(val) {
+    return { prop: val };
+}
+
+// Chaining functions and returning values
+let result = objectMaker(doubleIt(5));
+console.log(result); // { prop: 10 }
+
+RECURSION
+function example(){
+
+
+Base Case - the condition in a recursive function that stops the recursion
+Recursive Case - the part of the function that defines how the problem is broken down into smaller, similar sub-problems. It involves the function calling itself with smaller or reduced input, moving closer to the base case with each call
+
+
+SCOPE - two-way mirror
+scope - what info the program can access
+
+global scope - code outside of a function
+local/ function scope - code inside of a function, Variables created within the local scope cannot be read by code at the global scope level. They are accessible only to functions located within the local scope.  
+
+var gloablVar = "I'm in the global scope";
+
+function scopeTest() {
+	var localVar = "I'm scoped to the function";
+}
+
+scope chain - 
+
+FUNCTIONAL PROGRAMMING PARADIGM
+Immutability - variables are not modified after their initial assignment
+function getDistance(mph, h) {
+    return mph * h
+}
+var mph = 60;
+var h = 2;
+var distance = getDistance(mph, h);
+
+
+In functional programming, functions return new values and then use those values somewhere else in the code.
+function getDistance(mph, h) {
+    return mph * h
+}
+var mph = 60;
+var h = 2;
+var distance = getDistance(mph, h);
+
+console.log(distance); // <====== THIS HERE!
+
+
+Object Oriented Programming
+var virtualPet = {
+    sleepy: true,
+    nap: function() {}
+}
+
+methods update properties stored in the object instead of generating new return values
+//creating an object
+var virtualPet = {
+    sleepy: true,
+    nap: function() {
+        this.sleepy = false
+    }
+}
+console.log(virtualPet.sleepy) // true
+virtualPet.nap()
+console.log(virtualPet.sleepy) // false
+
+The nap() method modifies the sleepy property of the virtualPet object by using the this keyword. Specifically, this.sleepy refers to the sleepy property of the virtualPet object. When the nap() method is called, it updates the property to false.
+
+First-class functions
+a function in JavaScript is just another value that we can:
+	pass to other functions
+	save in a variable
+	return from other functions
+	a function in JavaScript is just a value
+	
+Pass a function or its invocation as an argument to another function.
+function addTwoNums(a, b) {
+    console.log(a + b)
+}
+
+function randomNum() {
+    return Math.floor((Math.random() * 10) + 1);
+}
+function specificNum() { return 42 };
+
+var useRandom = true;
+
+var getNumber;
+
+if(useRandom) {
+    getNumber = randomNum
+} else {
+    getNumber = specificNum
+}
+
+addTwoNums(getNumber(), getNumber())
+
+addTwoNums(specificNum, specificNum); // returned number is 84
+addTwoNums(specificNum, randomNum); // returned number is 42 + some random number
+
+Higher-order functions
+	It accepts other functions as arguments
+	It returns functions when invoked, treating them as value
+	
+Pure function -  returns the exact same result as long as it's given the same values, have no side effects
+Side-effect - any instance where a function makes a change outside of itself
+	changing variable values outside of the function itself, or even relying on outside variables 
+	calling a Browser API (even the console itself!) 
+	calling Math.random() since the value cannot be reliably repeated
+
+Since Math.random() generates a new value each time it is called, it introduces non-determinism, making functions that use it impure
+
+Block scope
+	let, const
+		can't be used before it is declared
+		can't be redeclared
+		is scoped to block
+		
+let color = 'red'; -----> global scope
+
+if (color == 'red' { ---> block scope, curly braces
+	let color == 'blue'
+}
+
+let - value may change in the future
+const - value will NEVER change
+var
+	can de used before declared
+	can be redeclared
+	scoped to function or globally
+	
+You are performing an update to some code and you need to create a variable named quantity, which calculates the total number of items. You need this variable to be accessible only inside a for loop.  You declare the variable using the let keyword and it is within a for loop that performs the calculation of the total number of items. 
+
+----------------------------------------
+console.log (user);
+
+var user = "Mary";
+var user = "Joanna";
+var user = "Mark";
+
+console.log(user);
+<OUTPUT>
+undefined
+Mark
+----------------------------------------
+
+console.log(user);
+let user;
+<OUTPUT>
+ReferenceError: Cannot access 'user' before initialization
+----------------------------------------
+
+let user;
+console.log(user);
+<OUTPUT>
+undefined
+----------------------------------------
+
+let user;
+console.log(user);
+
+let user = "Anna";
+<OUTPUT>
+SyntaxError: Identified 'user' has already been declared
